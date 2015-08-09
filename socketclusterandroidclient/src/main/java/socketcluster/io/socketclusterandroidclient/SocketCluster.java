@@ -99,14 +99,11 @@ public class SocketCluster {
 
     }
     private void registerHandles(){
-        bridge.registerHandler("handler1", new WebViewJavascriptBridge.WVJBHandler() {
+        bridge.registerHandler("onEventReceivedFromSocketCluster", new WebViewJavascriptBridge.WVJBHandler() {
             @Override
             public void handle(String data, WebViewJavascriptBridge.WVJBResponseCallback jsCallback) {
-                Log.d("test", "handler1 got:" + data);
-                if (null != jsCallback) {
-                    jsCallback.callback("handler1 answer");
-                }
-                bridge.callHandler("showAlert", "42");
+                HashMap<String, String> receivedData = (HashMap)JSONValue.parse(data);
+                socketClusterDelegate.socketClusterReceivedEvent(receivedData.get("event"), receivedData.get("data"));
             }
         });
     }
