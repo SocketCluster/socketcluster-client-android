@@ -1,30 +1,18 @@
 package socketcluster.io.socketclusterandroidclient;
-
-import android.content.Context;
 import android.app.Activity;
 import android.util.Log;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
 import com.fangjian.WebViewJavascriptBridge;
 
+import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
-
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.Socket;
-import java.net.URL;
+
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by lihanli on 1/06/2015.
- */
+
 public class SocketCluster {
     private String host;
     private String port;
