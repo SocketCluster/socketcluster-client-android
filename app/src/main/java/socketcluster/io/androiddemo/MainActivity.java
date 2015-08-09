@@ -7,10 +7,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import socketcluster.io.socketclusterandroidclient.ISocketCluster;
 import socketcluster.io.socketclusterandroidclient.SocketCluster;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ISocketCluster {
 
     private SocketCluster sc;
     @Override
@@ -49,4 +50,27 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void socketClusterReceivedEvent(String name, String data) {
+        Log.e("ReceivedEvent", name);
+        Log.e("ReceivedEvent", data);
+    }
+
+    @Override
+    public void socketClusterChannelReceivedEvent(String name, String data) {}
+    @Override
+    public void socketClusterDidConnect() {}
+    @Override
+    public void socketClusterDidDisconnect() {}
+    @Override
+    public void socketClusterOnError(String error) {}
+    @Override
+    public void socketClusterOnKickOut() {}
+    @Override
+    public void socketClusterOnSubscribe() {}
+    @Override
+    public void socketClusterOnSubscribeFail() {}
+    @Override
+    public void socketClusterOnUnsubscribe() {}
 }
