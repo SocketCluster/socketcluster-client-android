@@ -1,5 +1,5 @@
 
-if (window.WebViewJavascriptBridge) {
+if (window.WebViewJavascriptBridge3) {
     return;
 }
 
@@ -9,22 +9,10 @@ var responseCallbacks = {};
 var uniqueId = 1;
 
 function init(messageHandler) {
-    if (WebViewJavascriptBridge2._messageHandler) {
-        throw new Error('WebViewJavascriptBridge2.init called twice');
+    if (WebViewJavascriptBridge3._messageHandler) {
+        throw new Error('WebViewJavascriptBridge3.init called twice');
     }
-    WebViewJavascriptBridge2._messageHandler = messageHandler;
-}
-
-function send(data, responseCallback) {
-    _doSend({data: data}, responseCallback);
-}
-
-function registerHandler(handlerName, handler) {
-    messageHandlers[handlerName] = handler;
-}
-
-function callHandler(handlerName, data, responseCallback) {
-    _doSend({handlerName: handlerName, data: data}, responseCallback);
+    WebViewJavascriptBridge3._messageHandler = messageHandler;
 }
 
 function _doSend(message, responseCallback) {
@@ -39,6 +27,20 @@ function _doSend(message, responseCallback) {
         message.responseData || null, message.callbackId || null, message.handlerName || null);
 
 }
+
+function send(data, responseCallback) {
+    _doSend({data: data}, responseCallback);
+}
+
+function registerHandler(handlerName, handler) {
+    messageHandlers[handlerName] = handler;
+}
+
+function callHandler(handlerName, data, responseCallback) {
+    _doSend({handlerName: handlerName, data: data}, responseCallback);
+}
+
+
 
 function _dispatchMessageFromJava(messageJSON) {
     var message = JSON.parse(messageJSON);
@@ -64,16 +66,15 @@ function _dispatchMessageFromJava(messageJSON) {
             };
         }
 
-        var handler = WebViewJavascriptBridge2._messageHandler;
+        var handler = WebViewJavascriptBridge3._messageHandler;
         if (message.handlerName) {
             handler = messageHandlers[message.handlerName];
         }
         try {
-            debugger;
             handler(message.data, responseCallback);
         } catch(exception) {
-            if (typeof console != 'undefined') {
-                console.log("WebViewJavascriptBridge2: WARNING: javascript handler threw.", message, exception);
+            if (typeof console !='undefined') {
+                console.log("WebViewJavascriptBridge3: WARNING: javascript handler threw.", message, exception);
             }
         }
     }
@@ -82,9 +83,7 @@ function _dispatchMessageFromJava(messageJSON) {
 function _handleMessageFromJava(messageJSON) {
     _dispatchMessageFromJava(messageJSON);
 }
-
-//export
-window.WebViewJavascriptBridge2 = {
+window.WebViewJavascriptBridge3 = {
     'init': init,
     'send': send,
     'registerHandler': registerHandler,
