@@ -89,12 +89,9 @@ public class SocketCluster {
         String user_client_html=WebViewJavascriptBridge.convertStreamToString(is);
         webView.loadDataWithBaseURL("file:///android_asset/", user_client_html, "text/html", "utf-8", "");
 
-        InputStream is2 = context.getResources().openRawResource(R.raw.webviewjavascriptbridge);
-        String script= WebViewJavascriptBridge.convertStreamToString(is2);
-        webView.loadUrl("javascript:" + script);
-
-
-
+//        InputStream is2 = context.getResources().openRawResource(R.raw.webviewjavascriptbridge);
+//        String script= WebViewJavascriptBridge.convertStreamToString(is2);
+//        webView.loadUrl("javascript:" + script);
 
     }
     private void registerHandles(){
