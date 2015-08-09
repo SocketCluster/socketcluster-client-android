@@ -1,33 +1,32 @@
+var scProxy;
+function connectWebViewJavascriptBridge(callback) {
+    callback(window.WebViewJavascriptBridge3)
+}
 
-
-    var scProxy;
-    function connectWebViewJavascriptBridge(callback) {
-	    callback(window.WebViewJavascriptBridge2)
-	}
-
-    function getSocketStateBridge(){
-      if (scProxy) {
+function getSocketStateBridge() {
+    if (scProxy) {
         return scProxy.getState();
-      } else {
+    }
+    else {
         return 'NOT_INIT';
-      }_WebViewJavascriptBridge
     }
-    function getSubscriptionsBridge(includePending) {
-      includePending = includePending || false;
-      return scProxy.subscriptions(includePending);
-    }
-    function getSocketId() {
-      return scProxy.id;
-    }
+}
+function getSubscriptionsBridge(includePending) {
+    includePending = includePending || false;
+    return scProxy.subscriptions(includePending);
+}
+function getSocketId() {
+    return scProxy.id;
+}
 
-	connectWebViewJavascriptBridge(function(bridge) {
-	    bridge.registerHandler("connectHandler", function(data) {
-            var data = JSON.parse(data);
-            scProxy = socketCluster.connect({
-                    hostname: data.hostname,
-                    secure: data.secure === "true" ? true : false,
-                    port: data.port
-            });
+connectWebViewJavascriptBridge(function(bridge) {
+    bridge.registerHandler("connectHandler", function(data) {
+        var data = JSON.parse(data);
+        scProxy = socketCluster.connect({
+            hostname: data.hostname,
+            secure: data.secure === "true" ? true : false,
+            port: data.port
+        });
 
         scProxy.removeAllListeners('error');
 //        scProxy.on('error', function (err) {
@@ -67,6 +66,7 @@
 //	    	 scProxy.disconnect();
 //
 //	    });
+    });
 
     bridge.registerHandler("onEventHandler", function(data, responseCallback) {
         data = JSON.parse(data);
@@ -80,43 +80,43 @@
         });
     });
 
-	    bridge.registerHandler("publishHandler", function(packet) {
-          var channelName = packet.channel;
-          if (!channelName) {
+    bridge.registerHandler("publishHandler", function(packet) {
+        var channelName = packet.channel;
+        if (!channelName) {
             return;
-          }
-          scProxy.publish(channelName, packet.data);
+        }
+        scProxy.publish(channelName, packet.data);
 
-      });
-      bridge.registerHandler("subscribeHandler", function(packet) {
-          var channelName = packet.channel;
-          if (!channelName) {
+    });
+    bridge.registerHandler("subscribeHandler", function(packet) {
+        var channelName = packet.channel;
+        if (!channelName) {
             return;
-          }
+        }
 
-          if (!scProxy.isSubscribed(channelName)) {
-              scProxy.watch(channelName, function(publishedData){
+        if (!scProxy.isSubscribed(channelName)) {
+            scProxy.watch(channelName, function(publishedData) {
                 bridge.callHandler('onChannelReceivedEventFromSocketCluster', {
                     'channel': channelName,
                     'data': publishedData
-              });
-            })
-          }
-          scProxy.subscribe(channelName);
-      });
-      bridge.registerHandler("unsubscribeHandler", function(data) {
-          var channelName = data.channel;
-          if (!channelName) {
+                });
+            });
+        }
+        scProxy.subscribe(channelName);
+    });
+    bridge.registerHandler("unsubscribeHandler", function(data) {
+        var channelName = data.channel;
+        if (!channelName) {
             return;
-          }
-          scProxy.unwatch(channelName);
-          scProxy.unsubscribe(channelName);
-      });
-	    bridge.registerHandler("emitEventHandler", function(data){
-	    	var eventName = data.event;
-	    	scProxy.emit(eventName, data.data);
-	    });
+        }
+        scProxy.unwatch(channelName);
+        scProxy.unsubscribe(channelName);
+    });
+    bridge.registerHandler("emitEventHandler", function(data) {
+        var eventName = data.event;
+        scProxy.emit(eventName, data.data);
+    });
 
-	    bridge.init(function(message, responseCallback) {
-	    })
-	})
+    bridge.init(function(message, responseCallback) {
+    });
+});
