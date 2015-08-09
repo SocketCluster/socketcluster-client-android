@@ -2,6 +2,7 @@ package socketcluster.io.androiddemo;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,8 +30,23 @@ public class MainActivity extends AppCompatActivity implements ISocketCluster {
                 sc.connect();
             }
         });
+        // Disconnect button
+        final Button disconnectBtn = (Button) findViewById(R.id.btnDisconnect);
+        disconnectBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sc.disconnect();
+            }
+        });
+        // Listen to Rand event button handler
+        final Button listenToRandBtn = (Button) findViewById(R.id.btnListenRand);
+        listenToRandBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sc.registerEvent("rand");
+            }
+        });
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
