@@ -146,5 +146,10 @@ public class SocketCluster {
     public void disconnect() {
 
 
+    public void registerEvent(String eventName) {
+        Map data = new HashMap();
+        data.put("event", eventName);
+        String jsonText = JSONValue.toJSONString(data);
+        bridge.callHandler("onEventHandler", jsonText);
     }
 }
