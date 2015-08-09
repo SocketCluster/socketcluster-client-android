@@ -68,15 +68,17 @@
 //
 //	    });
 
-	   	bridge.registerHandler("onEventHandler", function(data, responseCallback) {
-	    	var eventName = data.event;
-	    	scProxy.on(eventName, function (data) {
-		        bridge.callHandler('onEventReceivedFromSocketCluster', {
-		        	'event': eventName,
-		        	'data':data
-		        });
-		    });
-	    });
+    bridge.registerHandler("onEventHandler", function(data, responseCallback) {
+        data = JSON.parse(data);
+        var eventName = data.event;
+        scProxy.on(eventName, function(data) {
+            console.log("eventName", eventName, data);
+            bridge.callHandler('onEventReceivedFromSocketCluster', JSON.stringify({
+                'event': eventName,
+                'data': JSON.stringify(data)
+            }));
+        });
+    });
 
 	    bridge.registerHandler("publishHandler", function(packet) {
           var channelName = packet.channel;
