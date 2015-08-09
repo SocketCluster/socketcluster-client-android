@@ -5,15 +5,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Update State"
-        android:id="@+id/btnUpdateState"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,18 +21,16 @@
         android:text="State"
         android:id="@+id/labelState"
         android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_alignTop="@+id/textView"
-        android:layout_toRightOf="@+id/textView"
-        android:layout_toEndOf="@+id/textView"
-        android:textSize="18dp" />
+        android:textSize="18dp"
+        android:layout_alignBottom="@+id/btnDisconnect"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/checkBox" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Host"
         android:id="@+id/textView2"
-        android:layout_below="@+id/btnUpdateState"
         android:layout_alignLeft="@+id/textView"
         android:layout_alignStart="@+id/textView"
         android:textSize="18dp" />
@@ -101,15 +90,6 @@
         android:layout_above="@+id/btnListenRand"
         android:layout_alignLeft="@+id/textPort"
         android:layout_alignStart="@+id/textPort" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Get Socket ID"
-        android:id="@+id/btnGetSocketId"
-        android:layout_above="@+id/btnListenRand"
-        android:layout_toRightOf="@+id/btnDisconnect"
-        android:layout_toEndOf="@+id/btnDisconnect" />
 
     <Button
         android:layout_width="wrap_content"
