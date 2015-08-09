@@ -42,6 +42,10 @@ public class SocketCluster {
         this.registerHandles();
     }
 
+    public void setDelegate(ISocketCluster delegate) {
+        socketClusterDelegate = delegate;
+    }
+
     class UserServerHandler implements WebViewJavascriptBridge.WVJBHandler{
         @Override
         public void handle(String data, WebViewJavascriptBridge.WVJBResponseCallback jsCallback) {
