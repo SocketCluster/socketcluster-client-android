@@ -79,15 +79,6 @@ public class WebViewJavascriptBridge {
             return true;
         }
 
-        @Override
-        public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
-            // if don't cancel the alert, webview after onJsAlert not responding taps
-            // you can check this :
-            // http://stackoverflow.com/questions/15892644/android-webview-after-onjsalert-not-responding-taps
-            result.cancel();
-            Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
-            return true;
-        }
     }
 
 
@@ -188,7 +179,7 @@ public class WebViewJavascriptBridge {
         String messageJSON = new JSONObject(message).toString();
         Log.d("test","sending:"+messageJSON);
        final  String javascriptCommand =
-                String.format("javascript:WebViewJavascriptBridge2._handleMessageFromJava('%s');",doubleEscapeString(messageJSON));
+                String.format("javascript:WebViewJavascriptBridge3._handleMessageFromJava('%s');",doubleEscapeString(messageJSON));
         mContext.runOnUiThread(new Runnable(){
             @Override
             public void run() {
@@ -196,7 +187,6 @@ public class WebViewJavascriptBridge {
             }
         });
     }
-
     @JavascriptInterface
     public  void callHandler(String handlerName) {
         callHandler(handlerName, null, null);
