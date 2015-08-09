@@ -144,7 +144,9 @@ public class SocketCluster {
         bridge.callHandler("connectHandler", jsonText);
     }
     public void disconnect() {
+        bridge.callHandler("disconnectHandler");
 
+    }
 
     public void registerEvent(String eventName) {
         Map data = new HashMap();
