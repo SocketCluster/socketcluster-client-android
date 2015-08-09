@@ -12,12 +12,13 @@ import socketcluster.io.socketclusterandroidclient.SocketCluster;
 
 public class MainActivity extends AppCompatActivity {
 
+    private SocketCluster sc;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final SocketCluster sc = new SocketCluster("192.168.199.103", "8000", false, this);
+        sc = new SocketCluster("192.168.199.103", "8000", false, this);
         final Button connectBtn = (Button) findViewById(R.id.btnConnect);
         connectBtn.setOnClickListener(new View.OnClickListener() {
             @Override
