@@ -31,6 +31,7 @@ public class SocketCluster {
     private Boolean isHttps;
     private WebView webView;
     private WebViewJavascriptBridge bridge;
+    private ISocketCluster socketClusterDelegate;
     private final String TAG = "SCClient";
 
     public SocketCluster(String host, String port, boolean isHttps, Activity context) {
