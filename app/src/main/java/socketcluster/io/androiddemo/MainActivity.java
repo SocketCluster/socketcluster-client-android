@@ -20,6 +20,8 @@ public class MainActivity extends AppCompatActivity implements ISocketCluster {
         setContentView(R.layout.activity_main);
 
         sc = new SocketCluster("192.168.199.103", "8000", false, this);
+        sc.setDelegate(this);
+        // Connect button
         final Button connectBtn = (Button) findViewById(R.id.btnConnect);
         connectBtn.setOnClickListener(new View.OnClickListener() {
             @Override
