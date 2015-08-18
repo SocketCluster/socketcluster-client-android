@@ -87,11 +87,74 @@ public class SocketCluster {
 
     }
     private void registerHandles(){
+
+        bridge.registerHandler("onConnectHandler", new WebViewJavascriptBridge.WVJBHandler() {
+            @Override
+            public void handle(String data, WebViewJavascriptBridge.WVJBResponseCallback jsCallback) {
+                socketClusterDelegate.socketClusterDidConnect();
+            }
+        });
+
+
+        bridge.registerHandler("onDisconnectedHandler", new WebViewJavascriptBridge.WVJBHandler() {
+            @Override
+            public void handle(String data, WebViewJavascriptBridge.WVJBResponseCallback jsCallback) {
+                socketClusterDelegate.socketClusterDidConnect();
+            }
+        });
+
+
+        bridge.registerHandler("onErrorHandler", new WebViewJavascriptBridge.WVJBHandler() {
+            @Override
+            public void handle(String data, WebViewJavascriptBridge.WVJBResponseCallback jsCallback) {
+                socketClusterDelegate.socketClusterOnError(data);
+            }
+        });
+
+
+        bridge.registerHandler("onKickoutHandler", new WebViewJavascriptBridge.WVJBHandler() {
+            @Override
+            public void handle(String data, WebViewJavascriptBridge.WVJBResponseCallback jsCallback) {
+                socketClusterDelegate.socketClusterOnKickOut();
+            }
+        });
+
+
+        bridge.registerHandler("onSubscribeFailHandler", new WebViewJavascriptBridge.WVJBHandler() {
+            @Override
+            public void handle(String data, WebViewJavascriptBridge.WVJBResponseCallback jsCallback) {
+                socketClusterDelegate.socketClusterOnSubscribeFail();
+            }
+        });
+
+
+        bridge.registerHandler("onUnsubscribeHandler", new WebViewJavascriptBridge.WVJBHandler() {
+            @Override
+            public void handle(String data, WebViewJavascriptBridge.WVJBResponseCallback jsCallback) {
+                socketClusterDelegate.socketClusterOnUnsubscribe();
+            }
+        });
+
+
+        bridge.registerHandler("onSubscribeHandler", new WebViewJavascriptBridge.WVJBHandler() {
+            @Override
+            public void handle(String data, WebViewJavascriptBridge.WVJBResponseCallback jsCallback) {
+                socketClusterDelegate.socketClusterOnSubscribe();
+            }
+        });
+
         bridge.registerHandler("onEventReceivedFromSocketCluster", new WebViewJavascriptBridge.WVJBHandler() {
             @Override
             public void handle(String data, WebViewJavascriptBridge.WVJBResponseCallback jsCallback) {
                 HashMap<String, String> receivedData = (HashMap)JSONValue.parse(data);
                 socketClusterDelegate.socketClusterReceivedEvent(receivedData.get("event"), receivedData.get("data"));
+            }
+        });
+        bridge.registerHandler("onChannelReceivedEventFromSocketCluster", new WebViewJavascriptBridge.WVJBHandler() {
+            @Override
+            public void handle(String data, WebViewJavascriptBridge.WVJBResponseCallback jsCallback) {
+                HashMap<String, String> receivedData = (HashMap) JSONValue.parse(data);
+                socketClusterDelegate.socketClusterReceivedEvent(receivedData.get("channel"), receivedData.get("data"));
             }
         });
     }
