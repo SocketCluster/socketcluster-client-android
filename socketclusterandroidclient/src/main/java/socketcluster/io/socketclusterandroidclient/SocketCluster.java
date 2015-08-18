@@ -133,7 +133,18 @@ public class SocketCluster {
     }
     public void disconnect() {
         bridge.callHandler("disconnectHandler");
+    }
 
+    public void emitEvent(String eventName, String eventData) {
+
+        if (null == eventData) {
+            eventData = "";
+        }
+        Map data = new HashMap();
+        data.put("event", eventName);
+        data.put("data", eventData);
+        String jsonText = JSONValue.toJSONString(data);
+        bridge.callHandler("emitEventHandler", jsonText);
     }
 
     public void registerEvent(String eventName) {
