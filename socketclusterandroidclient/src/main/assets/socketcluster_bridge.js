@@ -29,43 +29,44 @@ connectWebViewJavascriptBridge(function(bridge) {
         });
 
         scProxy.removeAllListeners('error');
-//        scProxy.on('error', function (err) {
-//            bridge.callHandler('onErrorHandler', {'data': err.message}, function(response) {});
-//        });
-//        scProxy.removeAllListeners('connect');
-//        scProxy.on('connect', function () {
-//          bridge.callHandler('onConnectHandler', {}, function(response) {});
-//        });
-//        scProxy.removeAllListeners('disconnect');
-//        scProxy.on('disconnect', function () {
-//          bridge.callHandler('onDisconnectedHandler', {}, function(response) {});
-//        });
-//
-//        scProxy.removeAllListeners('kickOut');
-//        scProxy.on('kickOut', function (data) {
-//          bridge.callHandler('onKickoutHandler', data, function(response) {});
-//        });
-//
-//        scProxy.removeAllListeners('subscribe');
-//        scProxy.on('subscribe', function (data) {
-//          bridge.callHandler('onSubscribeHandler', data, function(response) {});
-//        });
-//
-//        scProxy.removeAllListeners('subscribeFail');
-//        scProxy.on('subscribeFail', function (data) {
-//          bridge.callHandler('onSubscribeFailHandler', data, function(response) {});
-//        });
-//
-//        scProxy.removeAllListeners('unsubscribe');
-//            scProxy.on('unsubscribe', function (data) {
-//              bridge.callHandler('onUnsubscribeHandler', data, function(response) {});
-//            });
-//	    });
-//
-//	    bridge.registerHandler("disconnectHandler", function(data) {
-//	    	 scProxy.disconnect();
-//
-//	    });
+        scProxy.on('error', function (err) {
+            var jsonText = JSON.stringify({'data': err.message});
+            bridge.callHandler('onErrorHandler', jsonText, function(response) {});
+        });
+        scProxy.removeAllListeners('connect');
+        scProxy.on('connect', function () {
+            var jsonText = JSON.stringify({});
+            bridge.callHandler('onConnectHandler', jsonText, function(response) {});
+        });
+        scProxy.removeAllListeners('disconnect');
+        scProxy.on('disconnect', function () {
+          bridge.callHandler('onDisconnectedHandler', JSON.stringify({}), function(response) {});
+        });
+
+        scProxy.removeAllListeners('kickOut');
+        scProxy.on('kickOut', function (data) {
+          bridge.callHandler('onKickoutHandler', JSON.stringify({'data':data}), function(response) {});
+        });
+
+        scProxy.removeAllListeners('subscribe');
+        scProxy.on('subscribe', function (data) {
+          bridge.callHandler('onSubscribeHandler', JSON.stringify({'data':data}), function(response) {});
+        });
+
+        scProxy.removeAllListeners('subscribeFail');
+        scProxy.on('subscribeFail', function (data) {
+          bridge.callHandler('onSubscribeFailHandler', JSON.stringify({'data':data}), function(response) {});
+        });
+
+        scProxy.removeAllListeners('unsubscribe');
+            scProxy.on('unsubscribe', function (data) {
+              bridge.callHandler('onUnsubscribeHandler', JSON.stringify({'data':data}), function(response) {});
+            });
+	    });
+
+	    bridge.registerHandler("disconnectHandler", function(data) {
+	    	 scProxy.disconnect();
+	    });
     });
 
     bridge.registerHandler("onEventHandler", function(data, responseCallback) {
