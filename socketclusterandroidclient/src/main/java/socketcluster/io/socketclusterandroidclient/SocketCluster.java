@@ -5,7 +5,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import com.fangjian.WebViewJavascriptBridge;
 
-import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import java.io.InputStream;
 
