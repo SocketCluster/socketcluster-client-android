@@ -82,14 +82,18 @@ connectWebViewJavascriptBridge(function(bridge) {
     });
 
     bridge.registerHandler("publishHandler", function(packet) {
+        packet = JSON.parse(packet);
         var channelName = packet.channel;
         if (!channelName) {
             return;
         }
-        scProxy.publish(channelName, packet.data);
-
+        scProxy.publish(channelName, JSON.stringify({
+            'data': packet.data
+        }));
     });
+
     bridge.registerHandler("subscribeHandler", function(packet) {
+        packet = JSON.parse(packet);
         var channelName = packet.channel;
         if (!channelName) {
             return;
@@ -97,15 +101,16 @@ connectWebViewJavascriptBridge(function(bridge) {
 
         if (!scProxy.isSubscribed(channelName)) {
             scProxy.watch(channelName, function(publishedData) {
-                bridge.callHandler('onChannelReceivedEventFromSocketCluster', {
+                bridge.callHandler('onChannelReceivedEventFromSocketCluster', JSON.stringify({
                     'channel': channelName,
-                    'data': publishedData
-                });
+                    'data': JSON.stringify(publishedData)
+                }));
             });
         }
         scProxy.subscribe(channelName);
     });
     bridge.registerHandler("unsubscribeHandler", function(data) {
+        data = JSON.parse(data);
         var channelName = data.channel;
         if (!channelName) {
             return;
@@ -114,6 +119,7 @@ connectWebViewJavascriptBridge(function(bridge) {
         scProxy.unsubscribe(channelName);
     });
     bridge.registerHandler("emitEventHandler", function(data) {
+        data = JSON.parse(data);
         var eventName = data.event;
         scProxy.emit(eventName, data.data);
     });
