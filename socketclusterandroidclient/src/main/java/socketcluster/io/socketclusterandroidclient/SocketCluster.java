@@ -153,4 +153,26 @@ public class SocketCluster {
         String jsonText = JSONValue.toJSONString(data);
         bridge.callHandler("onEventHandler", jsonText);
     }
+
+    public void publishToChannel(String channelName, String eventData) {
+        Map data = new HashMap();
+        data.put("channel", channelName);
+        data.put("data", eventData);
+        String jsonText = JSONValue.toJSONString(data);
+        bridge.callHandler("publishHandler", jsonText);
+    }
+
+    public void subscribeToChannel(String channelName) {
+        Map data = new HashMap();
+        data.put("channel", channelName);
+        String jsonText = JSONValue.toJSONString(data);
+        bridge.callHandler("subscribeHandler", jsonText);
+    }
+
+    public void unsubscribeFromChannel(String channelName) {
+        Map data = new HashMap();
+        data.put("channel", channelName);
+        String jsonText = JSONValue.toJSONString(data);
+        bridge.callHandler("unsubscribeHandler", jsonText);
+    }
 }
