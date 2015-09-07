@@ -112,13 +112,28 @@
         android:layout_alignParentBottom="true"
         android:background="#ffe2e2e2" />
 
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Log"
-        android:id="@+id/textView4"
-        android:layout_above="@+id/logView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:text="Subscribe to &quot;weather&quot;"
+        android:id="@+id/btnSubWeather"
+        android:layout_below="@+id/btnListenRand"
+        android:layout_alignStart="@+id/btnListenRand" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Unsubscribe &quot;WEATHER&quot;"
+        android:id="@+id/btnUnSubWeather"
+        android:layout_alignTop="@+id/btnSubWeather"
+        android:layout_toEndOf="@+id/btnSubWeather" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Publish &quot;Sunny&quot; to &quot;WEATHER&quot;"
+        android:id="@+id/btnPubWeather"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/btnSubWeather" />
 
 </RelativeLayout>

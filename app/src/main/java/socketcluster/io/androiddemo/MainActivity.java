@@ -47,6 +47,31 @@ public class MainActivity extends AppCompatActivity implements ISocketCluster {
                 sc.registerEvent("rand");
             }
         });
+
+        final Button subToWeatherBtn = (Button) findViewById(R.id.btnSubWeather);
+        subToWeatherBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                sc.subscribeToChannel("WEATHER");
+            }
+        });
+        final Button unSubToWeatherBtn = (Button) findViewById(R.id.btnUnSubWeather);
+        unSubToWeatherBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                sc.unsubscribeFromChannel("WEATHER");
+            }
+        });
+
+        final Button pubToWeatherBtn = (Button) findViewById(R.id.btnPubWeather);
+        pubToWeatherBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                sc.publishToChannel("WEATHER", "CLOUDY");
+            }
+        });
+
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
