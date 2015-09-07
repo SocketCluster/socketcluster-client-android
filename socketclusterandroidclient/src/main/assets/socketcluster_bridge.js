@@ -1,6 +1,6 @@
 var scProxy;
 function connectWebViewJavascriptBridge(callback) {
-    callback(window.WebViewJavascriptBridge3)
+    callback(window.WebViewJavascriptBridge3);
 }
 
 function getSocketStateBridge() {
@@ -20,6 +20,7 @@ function getSocketId() {
 }
 
 connectWebViewJavascriptBridge(function(bridge) {
+
     bridge.registerHandler("connectHandler", function(data) {
         var data = JSON.parse(data);
         scProxy = socketCluster.connect({
@@ -29,44 +30,50 @@ connectWebViewJavascriptBridge(function(bridge) {
         });
 
         scProxy.removeAllListeners('error');
-        scProxy.on('error', function (err) {
+        scProxy.on('error', function(err) {
             var jsonText = JSON.stringify({'data': err.message});
-            bridge.callHandler('onErrorHandler', jsonText, function(response) {});
+            bridge.callHandler('onErrorHandler', jsonText, function(response) {
+            });
         });
         scProxy.removeAllListeners('connect');
-        scProxy.on('connect', function () {
+        scProxy.on('connect', function() {
             var jsonText = JSON.stringify({});
-            bridge.callHandler('onConnectHandler', jsonText, function(response) {});
+            bridge.callHandler('onConnectHandler', jsonText, function(response) {
+            });
         });
         scProxy.removeAllListeners('disconnect');
-        scProxy.on('disconnect', function () {
-          bridge.callHandler('onDisconnectedHandler', JSON.stringify({}), function(response) {});
+        scProxy.on('disconnect', function() {
+            bridge.callHandler('onDisconnectedHandler', JSON.stringify({}), function(response) {
+            });
         });
 
         scProxy.removeAllListeners('kickOut');
-        scProxy.on('kickOut', function (data) {
-          bridge.callHandler('onKickoutHandler', JSON.stringify({'data':data}), function(response) {});
+        scProxy.on('kickOut', function(data) {
+            bridge.callHandler('onKickoutHandler', JSON.stringify({'data': data}), function(response) {
+            });
         });
 
         scProxy.removeAllListeners('subscribe');
-        scProxy.on('subscribe', function (data) {
-          bridge.callHandler('onSubscribeHandler', JSON.stringify({'data':data}), function(response) {});
+        scProxy.on('subscribe', function(data) {
+            bridge.callHandler('onSubscribeHandler', JSON.stringify({'data': data}), function(response) {
+            });
         });
 
         scProxy.removeAllListeners('subscribeFail');
-        scProxy.on('subscribeFail', function (data) {
-          bridge.callHandler('onSubscribeFailHandler', JSON.stringify({'data':data}), function(response) {});
+        scProxy.on('subscribeFail', function(data) {
+            bridge.callHandler('onSubscribeFailHandler', JSON.stringify({'data': data}), function(response) {
+            });
         });
 
         scProxy.removeAllListeners('unsubscribe');
-            scProxy.on('unsubscribe', function (data) {
-              bridge.callHandler('onUnsubscribeHandler', JSON.stringify({'data':data}), function(response) {});
+        scProxy.on('unsubscribe', function(data) {
+            bridge.callHandler('onUnsubscribeHandler', JSON.stringify({'data': data}), function(response) {
             });
-	    });
+        });
+    });
 
-	    bridge.registerHandler("disconnectHandler", function(data) {
-	    	 scProxy.disconnect();
-	    });
+    bridge.registerHandler("disconnectHandler", function(data) {
+        scProxy.disconnect();
     });
 
     bridge.registerHandler("onEventHandler", function(data, responseCallback) {
@@ -126,4 +133,7 @@ connectWebViewJavascriptBridge(function(bridge) {
 
     bridge.init(function(message, responseCallback) {
     });
+
 });
+
+
