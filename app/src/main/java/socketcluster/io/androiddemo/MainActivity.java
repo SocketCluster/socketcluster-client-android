@@ -15,6 +15,7 @@ import socketcluster.io.socketclusterandroidclient.SocketCluster;
 public class MainActivity extends AppCompatActivity implements ISocketCluster {
 
     private SocketCluster sc;
+    private static String TAG = "SCDemo";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,24 +72,40 @@ public class MainActivity extends AppCompatActivity implements ISocketCluster {
 
     @Override
     public void socketClusterReceivedEvent(String name, String data) {
-        Log.e("ReceivedEvent", name);
-        Log.e("ReceivedEvent", data);
+        Log.i(TAG, "ReceivedEvent " + name);
+        Log.i(TAG, "ReceivedEvent " + data);
     }
 
     @Override
-    public void socketClusterChannelReceivedEvent(String name, String data) {}
+    public void socketClusterChannelReceivedEvent(String name, String data) {
+        Log.i(TAG, "socketClusterChannelReceivedEvent " + name + " data: " + data);
+    }
     @Override
-    public void socketClusterDidConnect() {}
+    public void socketClusterDidConnect() {
+        Log.i(TAG, "SocketClusterDidConnect");
+    }
     @Override
-    public void socketClusterDidDisconnect() {}
+    public void socketClusterDidDisconnect() {
+        Log.i(TAG, "socketClusterDidDisconnect");
+    }
     @Override
-    public void socketClusterOnError(String error) {}
+    public void socketClusterOnError(String error) {
+        Log.i(TAG, "socketClusterOnError");
+    }
     @Override
-    public void socketClusterOnKickOut() {}
+    public void socketClusterOnKickOut() {
+        Log.i(TAG, "socketClusterOnKickOut");
+    }
     @Override
-    public void socketClusterOnSubscribe() {}
+    public void socketClusterOnSubscribe() {
+        Log.i(TAG, "socketClusterOnSubscribe");
+    }
     @Override
-    public void socketClusterOnSubscribeFail() {}
+    public void socketClusterOnSubscribeFail() {
+        Log.i(TAG, "socketClusterOnSubscribeFail");
+    }
     @Override
-    public void socketClusterOnUnsubscribe() {}
+    public void socketClusterOnUnsubscribe() {
+        Log.i(TAG, "socketClusterOnUnsubscribe");
+    }
 }
