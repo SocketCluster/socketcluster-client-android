@@ -1,8 +1,8 @@
 
 if (window.WebViewJavascriptBridge3) {
-    return;
+ //   return;
 }
-
+else {
 
 var messageHandlers = {};
 var responseCallbacks = {};
@@ -90,3 +90,5 @@ window.WebViewJavascriptBridge3 = {
     'callHandler': callHandler,
     '_handleMessageFromJava': _handleMessageFromJava
 };
+
+}
