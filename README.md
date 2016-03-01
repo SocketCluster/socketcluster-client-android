@@ -8,15 +8,15 @@ Ive been trying to make it as simplest as i can to handle messages at activity. 
 
 Implementing this client in application is very simple. Somwhere in app, probably in main activity, implement BroadcastReceiver:
 
-private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
-
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        String event = intent.getStringExtra("event");
-        String data = intent.getStringExtra("data");
-        handleEvents(event,data); //this line is optional
-    }
-};
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+    
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String event = intent.getStringExtra("event");
+            String data = intent.getStringExtra("data");
+            handleEvents(event,data); //this line is optional
+        }
+    };
 And thats it. From this moment you can handle each event sent from server. Of course its also possible to implement BroadcastReceiver as new class.
 
 Benchmark button. I wanted to check how efficient is android client, not very efficient but is dispatching all messages even if its many of them in short time. This is code i used in worker:
