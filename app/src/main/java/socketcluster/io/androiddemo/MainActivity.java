@@ -21,6 +21,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.fangjian.WebViewJavascriptBridge;
+
 import org.json.simple.JSONValue;
 
 import java.util.HashMap;
@@ -50,7 +52,12 @@ public class MainActivity extends Activity {
         subsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                scSocket.subscriptions(true);
+                scSocket.subscriptions(true, new WebViewJavascriptBridge.WVJBResponseCallback() {
+                    @Override
+                    public void callback(String data) {
+                        handleEvents("subscriptions", data);
+                    }
+                });
             }
         });
         Map map = new HashMap();
@@ -66,7 +73,12 @@ public class MainActivity extends Activity {
         stateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                scSocket.getState();
+                scSocket.getState(new WebViewJavascriptBridge.WVJBResponseCallback() {
+                    @Override
+                    public void callback(String data) {
+                        handleEvents("getState", data);
+                    }
+                });
             }
         });
         // Benchmark
@@ -165,7 +177,8 @@ public class MainActivity extends Activity {
     protected void onResume(){
         super.onResume();
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
-                new IntentFilter("io.socketcluster.eventsreceiver"));  }
+                new IntentFilter("io.socketcluster.eventsreceiver"));
+    }
 
     @Override
     protected void onPause(){
@@ -229,7 +242,13 @@ public class MainActivity extends Activity {
                 break;
 
             case SCSocketService.EVENT_ON_CONNECT:
-                scSocket.emitEvent("login", "Test Driver");
+                scSocket.emitEvent("login", "Test Driver", new WebViewJavascriptBridge.WVJBResponseCallback() {
+                    @Override
+                    public void callback(String data) {
+                        textView.append("callback: "+data+"\n");
+                    }
+                });
+
                 scSocket.registerEvent("rand");
                 textView.append(event+": "+data+"\n");
                 Log.d(TAG, "connected: "+data);

@@ -128,7 +128,7 @@ connectWebViewJavascriptBridge(function(bridge) {
     /**
      *  scSocket.publish handler
      */
-    bridge.registerHandler("publishHandler", function(packet, responseCallback) {
+    bridge.registerHandler("publishHandler", function(packet) {
         packet = JSON.parse(packet);
         var channelName = packet.channel;
         if (!channelName) {
@@ -137,6 +137,24 @@ connectWebViewJavascriptBridge(function(bridge) {
         scProxy.publish(
           channelName,
           JSON.stringify({'data': packet.data})
+        );
+    });
+
+    /**
+     *  scSocket.publish handler
+     */
+    bridge.registerHandler("publishCallbackHandler", function(packet, callback) {
+        packet = JSON.parse(packet);
+        var channelName = packet.channel;
+        if (!channelName) {
+            return;
+        }
+        scProxy.publish(
+          channelName,
+          JSON.stringify({'data': packet.data}),
+          function(err){
+            callback(err);
+          }
         );
     });
 
@@ -183,6 +201,16 @@ connectWebViewJavascriptBridge(function(bridge) {
     });
 
     /**
+     *  scSocket.emit handler
+     */
+    bridge.registerHandler("emitEventCallbackHandler", function(data, callback) {
+        data = JSON.parse(data);
+        scProxy.emit(data.event, data.data, function(err){
+            callback(err);
+        });
+    });
+
+    /**
      *  scSocket.deauthenticate handler
      */
     bridge.registerHandler("deauthenticateHandler", function() {
@@ -190,11 +218,20 @@ connectWebViewJavascriptBridge(function(bridge) {
     });
 
     /**
+     *  scSocket.deauthenticate handler
+     */
+    bridge.registerHandler("deauthenticateCallbackHandler", function(data, callback) {
+        scProxy.deauthenticate(function(err){
+            callback(err);
+        });
+    });
+
+    /**
      * scSocket.getState handler
      */
-    bridge.registerHandler("getStateHandler", function() {
+    bridge.registerHandler("getStateHandler", function(data, callback) {
         var state = scProxy.getState();
-        bridge.callHandler('onGetStateHandler', JSON.stringify(state));
+        callback(JSON.stringify(state));
     });
 
     /**
@@ -209,6 +246,15 @@ connectWebViewJavascriptBridge(function(bridge) {
      */
     bridge.registerHandler("authenticateHandler", function(data) {
         scProxy.authenticate(data);
+    });
+
+    /**
+     *  scSocket.authenticate handler
+     */
+    bridge.registerHandler("authenticateCallbackHandler", function(data, callback) {
+        scProxy.authenticate(data, function(err){
+            callback(err);
+        });
     });
 
     bridge.init(function(message) {
