@@ -62,7 +62,7 @@ public class MainActivity extends Activity {
         });
         Map map = new HashMap();
 
-        String host = "ns1.diskstation.eu";
+        String host = "example.com";
         String port = "3000";
         map.put("hostname", host);
         map.put("port", port);
